@@ -15,6 +15,8 @@ export const getProductFromUrl = async (url: string): Promise<Product> => {
     $('[data-cy="productDetailMarkup"]').html()
   );
 
+  if (!product) return;
+
   const offer = product.offers as Offer;
   console.log(product);
 
