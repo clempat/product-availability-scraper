@@ -3,6 +3,11 @@ import axios from "axios";
 import cheerio from "cheerio";
 import { Product as ProductSchema, Offer } from "schema-dts";
 
+export const isBringmeisterUrl = (url: string) =>
+  url.indexOf("bringmeister.de");
+
+export const BRINGMEISTER = "Bringmeister";
+
 export const getProductFromUrl = async (url: string): Promise<Product> => {
   const { data } = await axios.get(url);
   const $ = cheerio.load(data);
@@ -11,6 +16,7 @@ export const getProductFromUrl = async (url: string): Promise<Product> => {
   );
 
   const offer = product.offers as Offer;
+  console.log(product);
 
   return {
     name: product.name as string,

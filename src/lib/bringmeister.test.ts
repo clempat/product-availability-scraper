@@ -1,6 +1,6 @@
 import fs from "fs";
 import path from "path";
-import { getProductFromUrl } from "./bringmeister";
+import { getProductFromUrl, BRINGMEISTER } from "./bringmeister";
 import axios from "axios";
 
 jest.mock("axios");
@@ -25,7 +25,7 @@ describe("bringmeister", () => {
     expect(product).toEqual({
       name: "EDEKA Bio WWF Junge Erbsen",
       available: true,
-      vendor: "Bringmeister",
+      vendor: BRINGMEISTER,
       url: "http://available",
     });
   });
@@ -33,12 +33,12 @@ describe("bringmeister", () => {
     axiosMock.get.mockImplementationOnce(() =>
       Promise.resolve({ data: mocks.not_available })
     );
-    const product = await getProductFromUrl("http://available");
+    const product = await getProductFromUrl("http://not-available");
     expect(product).toEqual({
       name: "GUT&GÜNSTIG Toilettenpapier 3-lagig 10x200 Blatt",
       available: false,
-      vendor: "Bringmeister",
-      url: "http://available",
+      vendor: BRINGMEISTER,
+      url: "http://not-available",
     });
   });
 });
