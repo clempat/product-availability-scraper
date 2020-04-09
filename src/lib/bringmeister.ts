@@ -18,7 +18,6 @@ export const getProductFromUrl = async (url: string): Promise<Product> => {
   if (!product) return;
 
   const offer = product.offers as Offer;
-  console.log(product);
 
   return {
     name: product.name as string,

@@ -53,6 +53,7 @@ bot.hears(/https:\/\//, async (ctx) => {
 
   if (vendor === BRINGMEISTER) {
     const product = await getBringmeisterProductFromUrl(url);
+    if (!product) return;
 
     if (product.available) {
       return ctx.reply(
