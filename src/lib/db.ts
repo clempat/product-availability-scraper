@@ -23,7 +23,7 @@ export default function (clientId?: number) {
         );
     }
 
-    if (clientProducts.filter({ url: product.url }).size().value > 0) {
+    if (clientProducts.filter({ url: product.url }).size().value() > 0) {
       throw new Error(
         `⏰ "${product.name}" is already in you watch list, you need to be more patient`
       );

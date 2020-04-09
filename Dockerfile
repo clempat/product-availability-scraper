@@ -10,4 +10,6 @@ COPY . .
 
 RUN npx tsc --build ./tsconfig.json
 
+VOLUME [ "./db.json" ]
+
 CMD [ "node", "dist/index.js" ]
