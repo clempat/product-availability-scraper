@@ -6,6 +6,7 @@ export enum Vendor {
 }
 
 export type Product = {
+  id: string;
   name: string;
   url: string;
   available: boolean;

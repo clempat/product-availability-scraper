@@ -2,6 +2,7 @@ import { Product } from "../types";
 import axios from "axios";
 import cheerio from "cheerio";
 import { Product as ProductSchema, Offer } from "schema-dts";
+import shortid from "shortid";
 
 export const isBringmeisterUrl = (url: string) =>
   url.indexOf("bringmeister.de");
@@ -20,6 +21,7 @@ export const getProductFromUrl = async (url: string): Promise<Product> => {
   const offer = product.offers as Offer;
 
   return {
+    id: shortid.generate(),
     name: product.name as string,
     available: offer.availability === "http://schema.org/InStock",
     vendor: "Bringmeister",

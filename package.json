@@ -14,6 +14,7 @@
     "puppeteer": "^2.1.1",
     "puppeteer-core": "^2.1.1",
     "schema-dts": "^0.5.2",
+    "shortid": "^2.2.15",
     "telegraf": "^3.37.0"
   },
   "devDependencies": {
