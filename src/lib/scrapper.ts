@@ -1,13 +1,13 @@
 import DB from "./db";
 import { Product } from "../types";
 import {
-  BRINGMEISTER,
   getProductFromUrl as getBringmeisterProductFromUrl,
+  isBringmeisterUrl,
 } from "./bringmeister";
 
-function scrap(product: Product) {
-  if (product.vendor === BRINGMEISTER) {
-    return getBringmeisterProductFromUrl(product.url);
+function scrap(url: string) {
+  if (isBringmeisterUrl(url)) {
+    return getBringmeisterProductFromUrl(url);
   }
   return undefined;
 }
@@ -16,16 +16,20 @@ export async function getAvailableProducts(): Promise<Product[]> {
   const db = DB();
 
   const products = db.getAllProducts();
-  const refreshedProducts = await Promise.all(products.map(scrap));
+  const refreshedProducts = await Promise.all(
+    [...new Set(products.map((p) => p.url))].map(scrap)
+  );
 
-  return products.map((product) => {
-    const refreshProduct = refreshedProducts.find(
-      (refreshedProduct) => product.url === refreshedProduct.url
-    );
-    if (!refreshedProducts) return product;
-    return {
-      ...product,
-      available: refreshProduct.available,
-    };
-  });
+  return products
+    .map((product) => {
+      const refreshProduct = refreshedProducts.find(
+        (rp) => product.url === rp.url
+      );
+      if (!refreshedProducts) return product;
+      return {
+        ...product,
+        available: refreshProduct.available,
+      };
+    })
+    .filter((p) => p.available);
 }
