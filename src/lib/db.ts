@@ -41,7 +41,7 @@ export default function (clientId?: number) {
 
   const deleteProducts = (products: Product[]) => {
     products.forEach((product) => {
-      db.remove({ url: product.url, clientId }).write();
+      db.get("products").remove(product).write();
     });
   };
 

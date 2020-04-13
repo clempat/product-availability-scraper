@@ -16,17 +16,20 @@ env.config();
 const bot = new Telegraf(process.env.BOT_TOKEN);
 const telegram = new Telegram(process.env.BOT_TOKEN);
 
-const job = new CronJob("*/10 * * * *", async () => {
+const job = new CronJob("*/2 * * * *", async () => {
   console.log(`⏲️ RUNNING THE CRON`);
   const products = await getAvailableProducts();
+
   const db = DB();
 
   products.forEach((product) => {
     if (!product.clientId) return;
-    telegram.sendMessage(
-      product.clientId,
-      `"🟢 ${product.name}" is now available ! Go Get It ! \n\n ${product.url}`
-    );
+    telegram
+      .sendMessage(
+        product.clientId,
+        `"🟢 ${product.name}" is now available ! Go Get It ! \n\n ${product.url}`
+      )
+      .catch((e) => console.log(e));
   });
 
   db.deleteProducts(products);

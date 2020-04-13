@@ -16,5 +16,16 @@ export async function getAvailableProducts(): Promise<Product[]> {
   const db = DB();
 
   const products = db.getAllProducts();
-  return (await Promise.all(products.map(scrap))).filter((p) => p.available);
+  const refreshedProducts = await Promise.all(products.map(scrap));
+
+  return products.map((product) => {
+    const refreshProduct = refreshedProducts.find(
+      (refreshedProduct) => product.url === refreshedProduct.url
+    );
+    if (!refreshedProducts) return product;
+    return {
+      ...product,
+      available: refreshProduct.available,
+    };
+  });
 }
