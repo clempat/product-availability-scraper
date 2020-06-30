@@ -24,6 +24,7 @@ describe("bringmeister", () => {
     const product = await getProductFromUrl("http://available");
     expect(product).toEqual({
       name: "EDEKA Bio WWF Junge Erbsen",
+      id: expect.any(String),
       available: true,
       vendor: BRINGMEISTER,
       url: "http://available",
@@ -36,6 +37,7 @@ describe("bringmeister", () => {
     const product = await getProductFromUrl("http://not-available");
     expect(product).toEqual({
       name: "GUT&GÜNSTIG Toilettenpapier 3-lagig 10x200 Blatt",
+      id: expect.any(String),
       available: false,
       vendor: BRINGMEISTER,
       url: "http://not-available",
